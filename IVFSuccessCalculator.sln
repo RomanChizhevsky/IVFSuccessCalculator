@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IVFSuccessCalculator", "IVFSuccessCalculator\IVFSuccessCalculator.csproj", "{D6273678-EB60-4FC5-83AE-CA68D098BC5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IVFSuccessCalculator.Tests", "IVFSuccessCalculator.Tests\IVFSuccessCalculator.Tests.csproj", "{BAA75B63-8350-45EF-B2BD-A048991522B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D6273678-EB60-4FC5-83AE-CA68D098BC5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6273678-EB60-4FC5-83AE-CA68D098BC5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6273678-EB60-4FC5-83AE-CA68D098BC5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAA75B63-8350-45EF-B2BD-A048991522B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAA75B63-8350-45EF-B2BD-A048991522B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAA75B63-8350-45EF-B2BD-A048991522B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAA75B63-8350-45EF-B2BD-A048991522B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
