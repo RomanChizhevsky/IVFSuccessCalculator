@@ -92,6 +92,8 @@
     </form>
 
     <script type="text/javascript">
+        const API_SERVER_URL = "https://localhost:7174";
+
         function onIvfReasonSelected(e) {
             const { target } = e;
             const ivfReasons = document.querySelectorAll("input[data-ivf-group]");
@@ -147,7 +149,7 @@
             // Prior to executing the request, clear any validation errors that are currently present on the form
             document.getElementById('form-submission-validation-errors').textContent = '';
 
-            const response = await fetch('https://localhost:7174/success-rate', {
+            const response = await fetch(API_SERVER_URL + '/success-rate', {
                 method: 'POST',
                 headers: {
                     "Content-Type": 'application/json',
