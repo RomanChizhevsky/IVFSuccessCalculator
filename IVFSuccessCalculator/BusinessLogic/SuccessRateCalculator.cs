@@ -5,7 +5,7 @@ namespace IVFSuccessCalculator.BusinessLogic
 {
     public interface ISuccessRateCalculator
     {
-        double Calculate(SuccessRateCalculationRequest request);
+        double Calculate(SuccessRateCalculationParameters parameters);
     }
 
     public class SuccessRateCalculator : ISuccessRateCalculator
@@ -17,16 +17,16 @@ namespace IVFSuccessCalculator.BusinessLogic
             _formulaParameters = formulaParameters.Value;
         }
 
-        public double Calculate(SuccessRateCalculationRequest request)
+        public double Calculate(SuccessRateCalculationParameters parameters)
         {
-            var formulaParams = _formulaParameters.First(f => f.CanBeUsed(request.UsingOwnEggs, request.UsedIvfBefore, request.ReasonForInfertilityKnown));
+            var formulaParams = _formulaParameters.First(f => f.CanBeUsed(parameters.UsingOwnEggs, parameters.UsedIvfBefore, parameters.ReasonForInfertilityKnown));
             var score = 0.0;
 
             score += formulaParams.Intercept;
-            score += AgeScore(request.Age, formulaParams);
-            score += BmiScore(Bmi(request.Weight, request.Height), formulaParams);
+            score += AgeScore(parameters.Age, formulaParams);
+            score += BmiScore(Bmi(parameters.Weight, parameters.Height), formulaParams);
 
-            var diagnosedWith = request.InfertilityDiagnosis;
+            var diagnosedWith = parameters.InfertilityDiagnosis;
             var ivfFactors = new[]
             {
                 (diagnosedWith.TubalFactor, formulaParams.TubalFactor),
@@ -38,11 +38,11 @@ namespace IVFSuccessCalculator.BusinessLogic
                 (diagnosedWith.OtherReason, formulaParams.SupplementalFactor),
                 (diagnosedWith.UnexplainedInf, formulaParams.UnexplainedInfertilityFactor),
                 
-                (request.NumPriorPregnancies == 1, formulaParams.PriorPregnancyFactor),
-                (request.NumPriorPregnancies > 1, formulaParams.MultiplePriorPregnanciesFactor),
+                (parameters.NumPriorPregnancies == 1, formulaParams.PriorPregnancyFactor),
+                (parameters.NumPriorPregnancies > 1, formulaParams.MultiplePriorPregnanciesFactor),
 
-                (request.NumLiveBirths == 1, formulaParams.LiveBirthFactor),
-                (request.NumLiveBirths > 1, formulaParams.MultipleLiveBirthsFactor)
+                (parameters.NumLiveBirths == 1, formulaParams.LiveBirthFactor),
+                (parameters.NumLiveBirths > 1, formulaParams.MultipleLiveBirthsFactor)
             };
 
             foreach (var (factor, weight) in ivfFactors)

@@ -3,7 +3,7 @@ using IVFSuccessCalculator.Domain;
 
 namespace IVFSuccessCalculator.BusinessLogic
 {
-    public class SuccessRateRequestValidator : AbstractValidator<SuccessRateCalculationRequest>
+    public class SuccessRateRequestValidator : AbstractValidator<SuccessRateCalculationParameters>
     {
         public SuccessRateRequestValidator() 
         {

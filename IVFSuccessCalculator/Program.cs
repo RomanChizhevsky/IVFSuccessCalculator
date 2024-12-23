@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder
     .Services
     .AddTransient<ISuccessRateCalculator, SuccessRateCalculator>()
-    .AddTransient<IValidator<SuccessRateCalculationRequest>, SuccessRateRequestValidator>()
+    .AddTransient<IValidator<SuccessRateCalculationParameters>, SuccessRateRequestValidator>()
     .Configure<List<SuccessRateFormulaParameters>>(s => s.AddRange(SuccessRateFormulaRepository.FetchParameters()))
     .AddControllers();
 

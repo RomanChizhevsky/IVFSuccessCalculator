@@ -41,6 +41,43 @@ namespace IVFSuccessCalculator.Tests.Integration
             validationErrors.Should().BeEquivalentTo(expectedValidationErrors);
         }
 
+        [Fact]
+        public async Task Calculation_NotProcessed_When_Required_Request_Parameters_Omitted()
+        {
+            // ARRANGE
+            var request = new SuccessRateCalculationRequest
+            {
+                Age = 25,
+                // Height is omitted
+                Weight = 100,
+
+                UsingOwnEggs = false,
+                UsedIvfBefore = true,
+
+                ReasonForInfertilityKnown = true,
+                InfertilityDiagnosis = new InfertilityFactors
+                {
+                    MaleFactorInf = true
+                },
+
+                // Num prior pregnancies is omitted
+                NumLiveBirths = 0
+            };
+
+            // ACT
+            var result = await _server.CalculateSuccessRate(request);
+
+            // ASSERT
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var errors = JToken.Parse(await result.Content.ReadAsStringAsync())["errors"];
+            errors.Should().BeEquivalentTo(JToken.FromObject(new
+            {
+                Height = new[] { "The Height field is required." },
+                NumPriorPregnancies = new[] { "The NumPriorPregnancies field is required." }
+            }));
+        }
+
         private class IVFSuccessRateCalculations : IEnumerable<object[]>
         {
             private const int FT = 12;

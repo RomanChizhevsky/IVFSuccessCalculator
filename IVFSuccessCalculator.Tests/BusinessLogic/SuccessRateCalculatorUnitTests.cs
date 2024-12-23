@@ -59,7 +59,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
                 },
              ]);
 
-            var request = new SuccessRateCalculationRequest
+            var request = new SuccessRateCalculationParameters
             {
                 Age = DEFAULT_AGE,
                 Height = DEFAULT_HEIGHT,
@@ -97,7 +97,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
                 AgePowerFactor = powerFactor
             });
 
-            var request = new SuccessRateCalculationRequest
+            var request = new SuccessRateCalculationParameters
             {
                 Age = age,
 
@@ -134,7 +134,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
                 BmiPowerFactor = powerFactor
             });
 
-            var request = new SuccessRateCalculationRequest
+            var request = new SuccessRateCalculationParameters
             {
                 Age = DEFAULT_AGE,
                 Height = height,
@@ -173,7 +173,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
                 UnexplainedInfertilityFactor = 0.2
             });
 
-            var request = new SuccessRateCalculationRequest
+            var request = new SuccessRateCalculationParameters
             {
                 Age = DEFAULT_AGE,
                 Height = DEFAULT_HEIGHT,
@@ -218,7 +218,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
                 SupplementalFactor = -0.05,
             });
 
-            var request = new SuccessRateCalculationRequest
+            var request = new SuccessRateCalculationParameters
             {
                 Age = DEFAULT_AGE,
                 Height = DEFAULT_HEIGHT,
@@ -255,7 +255,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
                 SupplementalFactor = -0.05,
             });
 
-            var request = new SuccessRateCalculationRequest
+            var request = new SuccessRateCalculationParameters
             {
                 Age = DEFAULT_AGE,
                 Height = DEFAULT_HEIGHT,
@@ -281,7 +281,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
                 Intercept = -7.0
             });
 
-            var request = new SuccessRateCalculationRequest
+            var request = new SuccessRateCalculationParameters
             {
                 Age = DEFAULT_AGE,
                 Height = DEFAULT_HEIGHT,

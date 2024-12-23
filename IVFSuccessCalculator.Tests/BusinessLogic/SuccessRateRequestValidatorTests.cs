@@ -7,14 +7,14 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
     public class SuccessRateRequestValidatorTests
     {
         private readonly SuccessRateRequestValidator _validator;
-        private readonly SuccessRateCalculationRequest _request;
+        private readonly SuccessRateCalculationParameters _request;
 
         private const int FT = 12;
 
         public SuccessRateRequestValidatorTests()
         {
             _validator = new SuccessRateRequestValidator();
-            _request = new SuccessRateCalculationRequest
+            _request = new SuccessRateCalculationParameters
             {
                 Age = 30,
                 Height = 5*FT + 8,
@@ -205,7 +205,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
 
         [Theory]
         [MemberData(nameof(ExampleValidRequests))]
-        public void Validation_Succeeds_When_Request_Specified(SuccessRateCalculationRequest validRequest)
+        public void Validation_Succeeds_When_Request_Specified(SuccessRateCalculationParameters validRequest)
         {
             var response = _validator.Validate(validRequest);
             response.IsValid.Should().BeTrue();
@@ -213,7 +213,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
 
         public static IEnumerable<object[]> ExampleValidRequests => [
             // Infertility Diagnosis not performed (Reason for infertility is not yet known)
-            [new SuccessRateCalculationRequest {
+            [new SuccessRateCalculationParameters {
                 Age = 20,
                 Height = 5*FT + 8,
                 Weight = 150,
@@ -223,7 +223,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
             }],
 
             // Infertility Diagnosis - Infertility cannot be explained after evaluation
-            [new SuccessRateCalculationRequest {
+            [new SuccessRateCalculationParameters {
                 Age = 20,
                 Height = 5*FT + 8,
                 Weight = 150,
@@ -235,7 +235,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
             }],
 
             // Infertility Diagnosis - Various known factors specified
-            [new SuccessRateCalculationRequest {
+            [new SuccessRateCalculationParameters {
                 Age = 20,
                 Height = 5*FT + 8,
                 Weight = 150,
