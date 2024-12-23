@@ -3,7 +3,7 @@ using IVFSuccessCalculator.BusinessLogic;
 using IVFSuccessCalculator.Domain;
 using Microsoft.Extensions.Options;
 
-namespace IVFSuccessCalculator.Tests.BusinessLogic
+namespace IVFSuccessCalculator.Tests.Unit.BusinessLogic
 {
     public class SuccessRateCalculatorUnitTests
     {
@@ -110,7 +110,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
             var result = _calculator.Calculate(request);
 
             // ASSERT
-            var expectedAgeScore = (linearCoeff * age) + (powerCoeff * Math.Pow(age, powerFactor));
+            var expectedAgeScore = linearCoeff * age + powerCoeff * Math.Pow(age, powerFactor);
             result.Should().Be(Sigmoid(expectedAgeScore));
         }
 
@@ -148,12 +148,12 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
 
             // ASSERT
             var bmi = 22.8;
-            var expectedBmiScore = (linearCoeff * bmi) + (powerCoeff * Math.Pow(bmi, powerFactor));
+            var expectedBmiScore = linearCoeff * bmi + powerCoeff * Math.Pow(bmi, powerFactor);
 
             result.Should().BeApproximately(Sigmoid(expectedBmiScore), 1e-5);
         }
 
-        
+
 
         [Fact]
         public void Calculates_Based_On_Known_IvfFactors()

@@ -2,7 +2,7 @@
 using IVFSuccessCalculator.BusinessLogic;
 using IVFSuccessCalculator.Domain;
 
-namespace IVFSuccessCalculator.Tests.BusinessLogic
+namespace IVFSuccessCalculator.Tests.Unit.BusinessLogic
 {
     public class SuccessRateRequestValidatorTests
     {
@@ -17,7 +17,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
             _request = new SuccessRateCalculationParameters
             {
                 Age = 30,
-                Height = 5*FT + 8,
+                Height = 5 * FT + 8,
                 Weight = 150,
 
                 ReasonForInfertilityKnown = false,
@@ -70,7 +70,7 @@ namespace IVFSuccessCalculator.Tests.BusinessLogic
 
         [Theory]
         [InlineData(4 * FT + 6)]
-        [InlineData(5*FT + 2)]
+        [InlineData(5 * FT + 2)]
         [InlineData(6 * FT)]
         public void Validation_Succeeds_When_Height_Is_Within_Allowable_Range(int validHeight)
         {
