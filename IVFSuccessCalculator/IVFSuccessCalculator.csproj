@@ -9,5 +9,11 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="ivf_success_formulas.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>
