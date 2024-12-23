@@ -15,14 +15,14 @@
             <h1>Background and History</h1>
 
             <label for="age">How old are you?</label>
-            <input id="age" type="number" min="20" max="50" placeholder="Enter age between 20 and 50" />
+            <input id="age" type="number" min="20" max="50" required placeholder="Enter age between 20 and 50" />
 
             <label for="weight">How much do you weigh?</label>
-            <input id="weight" type="number" min="80" max="300" placeholder="Enter weight between 80-300 lbs" />
+            <input id="weight" type="number" min="80" max="300" required placeholder="Enter weight between 80-300 lbs" />
 
             <label for="height-ft">How tall are you?</label>
-            <input id="height-ft" type="number" min="4" max="6" placeholder="feet" />
-            <input id="height-in" type="number" min="0" max="12" placeholder="inches" />
+            <input id="height-ft" type="number" min="4" max="6" required placeholder="feet" />
+            <input id="height-in" type="number" min="0" max="12" required placeholder="inches" />
 
             <label for="use-own-eggs">Do you plan to use your own eggs?</label>
             <input id="use-own-eggs" type="checkbox" onclick="onUseOwnEggs();" />
@@ -83,7 +83,7 @@
         </section>
 
         <div>
-            <button type="button" onclick="calculate();">Calculate</button>
+            <button type="submit">Calculate</button>
             <button type="button" onclick="resetForm();">Start Over</button>
         </div>
 
@@ -203,8 +203,12 @@
             return Math.round(number * 100);
         }
 
+        function stringValueOf(elId) {
+            return document.getElementById(elId).value;
+        }
+
         function numValueOf(elId) {
-            return Number(document.getElementById(elId).value);
+            return Number(stringValueOf(elId));
         }
 
         function boolValueOf(elId) {
@@ -221,6 +225,16 @@
         function onFormInit() {
             document.querySelectorAll("input[data-ivf-group]").forEach(el => {
                 el.addEventListener('click', onIvfReasonSelected);
+            });
+
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                if (!form.reportValidity())
+                    return;
+
+                calculate();
             });
 
             document.getElementById('result-window').style.display = 'none';
