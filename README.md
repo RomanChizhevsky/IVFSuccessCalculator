@@ -4,7 +4,7 @@
 - Install the latest version of [Git](https://git-scm.com/downloads)
 - Install [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) v8.0
 - Install the [.NET Core Hosting Bundle](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) (if hosting on IIS)
-- IIS Enabled (if hosting on IIS)
+- Ensure that IIS is enabled (if hosting on IIS)
 
 ### Steps
 1) Clone the repository.
@@ -21,8 +21,8 @@ Alternatively, if you wish to deploy to your local IIS, several additional steps
 
 ### API
 
-To calculate the IVF Success rate, issue a **POST** request to the **/success-rate** endpoint on the server.
-The body of the request must contain the calculation parameters, formatted as a JSON structure.
+To calculate the IVF Success rate for a patient, issue a **POST** request to the **/success-rate** endpoint on the server.
+The body of the request must contain patient details, formatted as a JSON structure.
 
 The skeleton of this request payload is depicted below:
 ```javascript
@@ -34,8 +34,9 @@ The skeleton of this request payload is depicted below:
   usingOwnEggs: boolean,
   usedIvfBefore: boolean,
 
-  reasonForInfertilityKnown: boolean,
+  reasonForInfertilityKnown: boolean, // Whether or not a professional diagnosis has been performed. If false, the diagnosis must be set to an empty object ({}).
   infertilityDiagnosis: {
+      // Various factors that were deemed to contribute to a patients' infertility
       tubalFactor: boolean,
       maleFactorInf: boolean,
       endometriosis: boolean,
@@ -43,11 +44,13 @@ The skeleton of this request payload is depicted below:
       diminishedOvarianReserve: boolean,
       uterineFactor: boolean,
       otherReason: boolean,
+
+      // The diagnosis did not reveal any infertility factors. The cause of infertility is unexplained
       unexplainedInf: boolean
   },
 
   numPriorPregnancies: number,
-  numLiveBirths: number
+  numLiveBirths: number // How many of the prior pregnancies were successful
 }
 ```
 
@@ -71,8 +74,8 @@ The other infertility parameters will be set to false by default.
 If the calculation was successful, a 200 level response will be served, containing the success rate probability (expressed as a floating point integer from 0 to 1).
 
 
-If the request was deemed invalid, a 400 level response will be served instead. 
-A validation error payload will be returned in the body.
+However, if the request was deemed invalid, a 400 level response will be served instead. 
+The validation error payload will be returned in the body.
 
 Example:
 ```csharp
@@ -88,15 +91,17 @@ Example:
 
 ### Website
 
-For convienence, the solution includes a sample webpage that can be used in conjunction with the API. 
+For convenience, the solution includes a sample webpage that can be used in conjunction with the API. 
 Navigate to the Web folder, and open the **success-rate.html** page in a text editor.
 
-Ensure the **API_SERVER_URL** variable is set to the server url configured in the Deployment and Setup section.
+Ensure the **API_SERVER_URL** variable is set to the server address/port configured in the Deployment and Setup section.
 Save the page, and open the HTML file in a browser.
 
 A form will be displayed, allowing you to enter in all of the patient details.
 When finished, press **Calculate** to issue the request to the server.
-After the result is returned, a message will be displayed indicating the success rate (displayed as a percentage).
+After calculating, a message will be displayed indicating the success rate (displayed as a percentage).
+
+If there are any validation errors returned from the server, they will be displayed at the bottom of the page.
 
 # Testing
 
