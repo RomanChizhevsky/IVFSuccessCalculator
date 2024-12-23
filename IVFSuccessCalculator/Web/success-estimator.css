@@ -1,0 +1,39 @@
+﻿section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 600px;
+    row-gap: 10px;
+    align-items: start;
+}
+
+section > h1 {
+    grid-column: 1/3;
+}
+
+.one-line {
+    grid-column: 1/3;
+}
+
+#height-ft, #height-in {
+    grid-column: 2 / 2;
+}
+
+section > input[type=checkbox] {
+    width: 50px;
+    margin-left: -20px;
+}
+
+button {
+    margin-top: 30px;
+}
+
+#form-submission-validation-errors {
+    border-radius: 5px;
+    background-color: lightcoral;
+    color: darkred;
+    padding: 10px 25px 10px 25px;
+}
+
+#form-submission-validation-errors:empty {
+    display: none;
+}

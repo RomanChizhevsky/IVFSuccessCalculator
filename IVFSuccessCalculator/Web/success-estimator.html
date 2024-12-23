@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Success Estimator</title>
+    <link rel="stylesheet" href="success-estimator.css" />
+</head>
+<body>
+    <div id="result-window">
+        <h1>The success rate is calculated to be <span id="success-rate"></span>%.</h1>
+        <button onclick="onBackToForm();">Start Over</button>
+    </div>
+    <form>
+        <section>
+            <h1>Background and History</h1>
+
+            <label for="age">How old are you?</label>
+            <input id="age" type="number" min="20" max="50" placeholder="Enter age between 20 and 50" />
+
+            <label for="weight">How much do you weigh?</label>
+            <input id="weight" type="number" min="80" max="300" placeholder="Enter weight between 80-300 lbs" />
+
+            <label for="height-ft">How tall are you?</label>
+            <input id="height-ft" type="number" min="4" max="6" placeholder="feet" />
+            <input id="height-in" type="number" min="0" max="12" placeholder="inches" />
+
+            <label for="use-own-eggs">Do you plan to use your own eggs?</label>
+            <input id="use-own-eggs" type="checkbox" onclick="onUseOwnEggs();" />
+
+            <label for="used-ivf-before">Have you used IVF in the past?</label>
+            <input id="used-ivf-before" type="checkbox" />
+
+            <label for="prior-pregnancies">How many prior pregnancies have you had?</label>
+            <select id="prior-pregnancies">
+                <option value="0">None</option>
+                <option value="1">1</option>
+                <option value="2">2 or more</option>
+            </select>
+
+            <label for="prior-live-births">How many prior live births have you had?</label>
+            <select id="prior-live-births">
+                <option value="0">None</option>
+                <option value="1">1</option>
+                <option value="2">2 or more</option>
+            </select>
+        </section>
+
+        <section>
+            <h1>Diagnosis and Plan</h1>
+
+            <p class="one-line">What is the reason you are using IVF? (select all that apply)</p>
+
+            <label for="tubal-factor">Tubal Factor</label>
+            <input id="tubal-factor" data-ivf-group="1" type="checkbox" />
+
+            <label for="male-inf">Male Factor Infertility</label>
+            <input id="male-inf" data-ivf-group="1" type="checkbox" />
+
+            <label for="endomet">Endometriosis</label>
+            <input id="endomet" data-ivf-group="1" type="checkbox" />
+
+            <label for="ovulatory-dis">Ovulatory Disorder</label>
+            <input id="ovulatory-dis" data-ivf-group="1" type="checkbox" />
+
+            <label for="dim-ovarian-res">Diminished Ovarian Reserve</label>
+            <input id="dim-ovarian-res" data-ivf-group="1" type="checkbox" />
+
+            <label for="uterine-factor">Uterine Factor</label>
+            <input id="uterine-factor" data-ivf-group="1" type="checkbox" />
+
+            <label for="other-reason">Other Reason</label>
+            <input id="other-reason" data-ivf-group="1" type="checkbox" />
+
+            <h4 class="one-line">or</h4>
+
+            <label for="inf-unexplained">Infertility Is Unexplained</label>
+            <input id="inf-unexplained" data-ivf-group="2" type="checkbox" />
+
+            <h4 class="one-line">or</h4>
+
+            <label for="unsure-of-reason">I Don't Know / No Reason</label>
+            <input id="unsure-of-reason" data-ivf-group="3" type="checkbox" />
+        </section>
+
+        <div>
+            <button type="button" onclick="calculate();">Calculate</button>
+            <button type="button" onclick="resetForm();">Start Over</button>
+        </div>
+
+        <ul id="form-submission-validation-errors">
+        </ul>
+    </form>
+
+    <script type="text/javascript">
+        function onIvfReasonSelected(e) {
+            const { target } = e;
+            const ivfReasons = document.querySelectorAll("input[data-ivf-group]");
+
+            for (el of ivfReasons) {
+                if (el.dataset.ivfGroup === target.dataset.ivfGroup)
+                    continue;
+
+                el.checked = false;
+            }
+        }
+
+        function onUseOwnEggs() {
+            const usingEggs = document.getElementById('use-own-eggs').checked;
+
+            const usedIvfBefore = document.getElementById('used-ivf-before');
+            const usedIvfLbl = document.querySelector("label[for='used-ivf-before']");
+
+            let dispIvfOption = 'block';
+
+            if (!usingEggs) {
+                usedIvfBefore.checked = false;
+                dispIvfOption = 'none';
+            }
+
+            usedIvfBefore.style.display = dispIvfOption;
+            usedIvfLbl.style.display = dispIvfOption;
+        }
+
+        function resetForm() {
+            document.querySelectorAll("input[type='number']").forEach(el => {
+                el.value = '';
+            });
+
+            document.querySelectorAll("input[type='checkbox']").forEach(el => {
+                el.checked = false;
+            });
+
+            document.querySelectorAll('select').forEach(el => {
+                el.value = '0';
+            });
+
+            // Hide the Used IVF before question by default
+            document.querySelectorAll("#used-ivf-before, label[for='used-ivf-before']").forEach(el => {
+                el.style.display = 'none';
+            });
+
+            // Remove any validation errors that are currently present on the form
+            document.getElementById('form-submission-validation-errors').textContent = '';
+        }
+
+        async function calculate() {
+            // Prior to executing the request, clear any validation errors that are currently present on the form
+            document.getElementById('form-submission-validation-errors').textContent = '';
+
+            const response = await fetch('https://localhost:7174/success-rate', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json',
+                },
+                body: JSON.stringify({
+                    age: numValueOf('age'),
+                    weight: numValueOf('weight'),
+                    height: numValueOf('height-ft') * 12 + numValueOf('height-in'),
+                    infertilityDiagnosis: {
+                        tubalFactor: boolValueOf('tubal-factor'),
+                        maleFactorInf: boolValueOf('male-inf'),
+                        endometriosis: boolValueOf('endomet'),
+                        ovulatoryDisorder: boolValueOf('ovulatory-dis'),
+                        diminishedOvarianReserve: boolValueOf('dim-ovarian-res'),
+                        uterineFactor: boolValueOf('uterine-factor'),
+                        otherReason: boolValueOf('other-reason'),
+                        unexplainedInf: boolValueOf('inf-unexplained')
+                    },
+                    numPriorPregnancies: numValueOf('prior-pregnancies'),
+                    numLiveBirths: numValueOf('prior-live-births'),
+
+                    usingOwnEggs: boolValueOf('use-own-eggs'),
+                    usedIvfBefore: boolValueOf('used-ivf-before'),
+                    reasonForInfertilityKnown: !boolValueOf('unsure-of-reason')
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.status == 400) {
+                const validationContainer = document.getElementById('form-submission-validation-errors');
+
+                for (const propertyName of Object.keys(data)) {
+                    const errorMessage = data[propertyName];
+
+                    const errorLi = document.createElement('li');
+                    errorLi.innerText = errorMessage;
+
+                    validationContainer.appendChild(errorLi);
+                }
+
+                return;
+            }
+
+            document.getElementById('success-rate').innerText = asPercentage(data);
+
+            // Display the result window, and hide the form
+            document.getElementById('result-window').style.display = 'block';
+            document.querySelector('form').style.display = 'none';
+        }
+
+        function asPercentage(number) {
+            return Math.round(number * 100);
+        }
+
+        function numValueOf(elId) {
+            return Number(document.getElementById(elId).value);
+        }
+
+        function boolValueOf(elId) {
+            return document.getElementById(elId).checked;
+        }
+
+        function onBackToForm() {
+            document.getElementById('result-window').style.display = 'none';
+            document.querySelector('form').style.display = 'block';
+
+            onFormInit();
+        }
+
+        function onFormInit() {
+            document.querySelectorAll("input[data-ivf-group]").forEach(el => {
+                el.addEventListener('click', onIvfReasonSelected);
+            });
+
+            document.getElementById('result-window').style.display = 'none';
+            resetForm();
+        }
+
+        onFormInit();
+    </script>
+</body>
+</html>
