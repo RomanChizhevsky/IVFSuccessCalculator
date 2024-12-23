@@ -3,7 +3,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using IVFSuccessCalculator.Api;
 using IVFSuccessCalculator.BusinessLogic;
-using IVFSuccessCalculator.Domain;
+using IVFSuccessCalculator.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Moq;

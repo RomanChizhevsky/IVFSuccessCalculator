@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using IVFSuccessCalculator.BusinessLogic;
-using IVFSuccessCalculator.Domain;
+using IVFSuccessCalculator.Models;
 
 namespace IVFSuccessCalculator.Tests.Unit.BusinessLogic
 {

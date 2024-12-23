@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Json;
 using System.Net.Sockets;
-using IVFSuccessCalculator.Domain;
+using IVFSuccessCalculator.Models;
 
 namespace IVFSuccessCalculator.Tests.Integration.Fixtures
 {

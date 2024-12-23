@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IVFSuccessCalculator.Domain
+namespace IVFSuccessCalculator.Models
 {
     /// <summary>
     /// Represents the request payload for a success rate calculation.

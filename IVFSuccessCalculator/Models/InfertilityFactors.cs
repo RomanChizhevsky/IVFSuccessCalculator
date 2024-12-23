@@ -1,4 +1,4 @@
-﻿namespace IVFSuccessCalculator.Domain
+﻿namespace IVFSuccessCalculator.Models
 {
     public record InfertilityFactors
     {

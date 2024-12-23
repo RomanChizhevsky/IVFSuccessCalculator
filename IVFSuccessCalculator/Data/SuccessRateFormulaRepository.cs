@@ -1,4 +1,4 @@
-﻿using IVFSuccessCalculator.Domain;
+﻿using IVFSuccessCalculator.Models;
 
 namespace IVFSuccessCalculator.Data
 {

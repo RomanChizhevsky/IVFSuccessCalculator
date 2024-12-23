@@ -2,7 +2,7 @@
 using System.Net;
 using FluentAssertions;
 using FluentAssertions.Json;
-using IVFSuccessCalculator.Domain;
+using IVFSuccessCalculator.Models;
 using IVFSuccessCalculator.Tests.Integration.Fixtures;
 using Newtonsoft.Json.Linq;
 

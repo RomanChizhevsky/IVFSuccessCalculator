@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using IVFSuccessCalculator.Domain;
+using IVFSuccessCalculator.Models;
 
 namespace IVFSuccessCalculator.BusinessLogic
 {

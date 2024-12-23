@@ -1,7 +1,7 @@
 using FluentValidation;
 using IVFSuccessCalculator.BusinessLogic;
 using IVFSuccessCalculator.Data;
-using IVFSuccessCalculator.Domain;
+using IVFSuccessCalculator.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,6 +1,6 @@
 using FluentValidation;
 using IVFSuccessCalculator.BusinessLogic;
-using IVFSuccessCalculator.Domain;
+using IVFSuccessCalculator.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IVFSuccessCalculator.Api
